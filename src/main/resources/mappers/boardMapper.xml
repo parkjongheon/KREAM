@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javagreenS_pjh.dao.BoardDAO">
+	<select id="getBoardContent" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		   where bo.boIdx = #{boIdx};
+	</select>
+	<select id="getBoardUserInfo" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from member2 where idx = #{memIdx};
+	</select>
+	<select id="getUserContentList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		   where bo.bo_memIdx = #{memIdx} and bo.bo_val != 99 order by bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getReplyLastIndex" resultType="com.spring.javagreenS_pjh.vo.BoReVO">
+		select * from boardreply2 where boRe_memIdx = #{boRe_memIdx} order by boReIdx desc limit 1;
+	</select>
+	<select id="getReplyList" resultType="com.spring.javagreenS_pjh.vo.BoReVO">
+		select * from boardreply2 as re inner join member2 as m on re.boRe_memIdx = m.idx where re.boRe_boIdx = #{boRe_boIdx} order by re.boRe_boReIdx desc,re.boReIdx,re.boRe_index;
+	</select>
+	<select id="getBoardLikeList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from boardlike2 where bl_memIdx = #{sIdx};
+	</select>
+	<select id="feedAllCnt" resultType="int">
+		select count(*) from board2 where bo_val = 0;
+	</select>
+	<select id="feedFollowtot" resultType="int">
+		select count(*) from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx inner join follow2 f on m.idx = f.for_Idx
+		  where bo_val = 0 and bo.bo_memIdx = f.for_Idx and f.who_Idx = 1;
+	</select>
+	<select id="feedTagtot" resultType="int">
+		select count(*) from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo.bo_val = 0 and bo.bo_tag LIKE CONCAT("%", #{tags}, "%");
+	</select>
+	<select id="getTagSearch" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from tagbox2 where tagName LIKE CONCAT("%", #{tags}, "%");
+	</select>
+	<select id="getPrdFeedtot" resultType="int">
+		select count(*) from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and p.prdIdx = #{prdIdx};
+	</select>
+	
+	<select id="getFeedAll" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and m.userDel != 'OK' order by bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getfeedPapular" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and m.userDel != 'OK' order by bo.bo_likeCnt desc, reCnt desc, bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getBestFeed" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and m.userDel != 'OK' order by bo.bo_likeCnt desc, reCnt desc, bo.boIdx desc limit 6;
+	</select>
+	<select id="getFeedFollow" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx inner join follow2 f on m.idx = f.for_Idx
+		  where bo_val = 0 and m.userDel != 'OK' and bo.bo_memIdx = f.for_Idx and f.who_Idx = #{sIdx} order by bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getFeedTagPapular" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo.bo_val = 0 and bo.bo_tag LIKE CONCAT("%", #{tags}, "%") and m.userDel != 'OK' order by bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getPrdBoardList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and p.prdIdx = #{prdIdx} and m.userDel != 'OK' order by boIdx desc limit 8;
+	</select>
+	<select id="getFeedProduct" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where bo_val = 0 and p.prdIdx = #{prdIdx} and m.userDel != 'OK' order by boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getTagList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from tagbox2 order by tagCnt desc,tagIdx desc limit 10;
+	</select>
+	<select id="getforcnt" resultType="int">
+		select count(*) from member2 as m inner join follow2 as f on m.idx = f.who_Idx where f.for_Idx = #{memIdx} and m.userDel = 'NO';
+	</select>
+	<select id="getwhocnt" resultType="int">
+		select count(*) from member2 as m inner join follow2 as f on m.idx = f.for_Idx where f.who_Idx = #{memIdx} and m.userDel = 'NO';
+	</select>
+	<select id="getReplyInfo" resultType="string">
+		select boRe_coment from boardreply2 where boReIdx = #{boReIdx};
+	</select>
+	
+	<insert id="setReplyInput">
+		insert into boardreply2 values(default,#{vo.boRe_boIdx},#{vo.boRe_memIdx},#{vo.boRe_boReIdx},#{vo.boRe_coment},default,#{vo.boRe_forMem},#{vo.boRe_forMemIdx},default,#{vo.boRe_index});
+	</insert>
+	<insert id="setBoardLikeUp">
+		insert into boardlike2 values(default,#{vo.bl_memIdx},#{vo.bl_boardIdx});
+	</insert>
+	<insert id="setDeclaration">
+		insert into declaration2 values(default,#{vo.d_memIdx},#{vo.d_boIdx},#{vo.d_status},#{vo.d_content},default,default);
+	</insert>
+	
+	<update id="setReplyReInput">
+		update boardreply2 set boRe_boReIdx = #{res} where boReIdx = #{res};
+	</update>
+	<update id="setBoardLikeCntUp">
+		update board2 set bo_likeCnt = bo_likeCnt + 1 where boIdx = #{bl_boardIdx};
+	</update>
+	<update id="setBoardLikeCntDown">
+		update board2 set bo_likeCnt = bo_likeCnt - 1 where boIdx = #{boIdx};
+	</update>
+	<update id="setBoardDelete">
+		update board2 set bo_val = 99 where boIdx = #{boIdx};
+	</update>
+	<update id="setReplyDelete">
+		update boardreply2 set boRe_val = 99 where boReIdx = #{boReIdx};
+	</update>
+	<update id="setReplyUpdate">
+		update boardreply2 set boRe_coment = #{coment} where boReIdx = #{boReIdx};
+	</update>
+	<delete id="setBoardLikeDown">
+		delete from boardlike2 where bl_memIdx = #{sIdx} and bl_boardIdx = #{boIdx};
+	</delete>
+</mapper>

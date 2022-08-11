@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javagreenS_pjh.dao.MemDAO">
+	<select id="getUserInfo" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where mid = #{mid};
+	</select>
+	<select id="getNickNameCheck" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where nickName = #{nickName};
+	</select>
+	<select id="myOrdertotRecCnt" resultType="int">
+		select count(*) from ordersub2 as o inner join product2 as p 
+		on o.order_prdIdx = p.prdIdx inner join order2 
+		on o.orderIdx = order2.orderIdx inner join member2 
+		on order2.memIdx = member2.idx and order2.memIdx = #{memIdx}
+		<where>
+			<if test='date != "" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},order2.pay_orderDate,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		order2.pay_orderDate between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and o.order_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and order2.pay_marchantId LIKE CONCAT("%", #{search}, "%")
+			</if>
+		and o.order_prdCount != 0
+		</where>
+	</select>
+	<select id="getMemOrderList" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 as os inner join product2 as p 
+		on os.order_prdIdx = p.prdIdx inner join order2 as o
+		on os.orderIdx = o.orderIdx inner join member2 as m
+		on o.memIdx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(o.pay_orderDate,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},o.pay_orderDate,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		o.pay_orderDate between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and os.order_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+			and os.order_prdCount != 0 and o.memIdx = #{memIdx}
+		</where>
+		order by os.order_subIdx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="userSearchNick" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where nickName LIKE CONCAT("%", #{userSearch}, "%") or mid LIKE CONCAT("%", #{userSearch}, "%");
+	</select>
+	<select id="getReturnIdx" resultType="int">
+		select reIdx from return2 where mem_Idx = #{memIdx} order by reIdx desc limit 1;
+	</select>
+	<select id="getMemReturn" resultType="com.spring.javagreenS_pjh.vo.ReturnVO">
+		select * from return2 as re inner join returnsub2 as res on re.reIdx = res.resub_reIdx where re.mem_Idx = #{memIdx};
+	</select>
+	<select id="getOrderCnt" resultType="int">
+		select count(*) from order2 as o 
+		inner join ordersub2 os 
+		on o.orderIdx = os.orderIdx 
+		where o.memIdx = #{memIdx} and os.order_prdCount != 0;
+	</select>
+	<select id="getConfirmcnt" resultType="int">
+		select count(*) from order2 as o inner join ordersub2 os on o.orderIdx = os.orderIdx where o.memIdx = #{sIdx} and o.pay_price != 0 and os.order_val = 6;
+	</select>
+	<select id="getDlvcnt" resultType="int">
+		select count(*) from order2 as o inner join ordersub2 os on o.orderIdx = os.orderIdx where o.memIdx = #{memIdx} and o.pay_price != 0 and os.order_val = 4;
+	</select>
+	<select id="getReturnCnt" resultType="int">
+		select count(*) from return2 as re inner join returnsub2 as res on re.reIdx = res.resub_reIdx where mem_Idx = #{memIdx} and res.return_val =0;
+	</select>
+	<select id="getSearchProduct" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where kprdName LIKE CONCAT("%", #{key}, "%") or eprdName LIKE CONCAT("%", #{key}, "%");
+	</select>
+	<select id="chooseItem" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where prdIdx = #{prdIdx};
+	</select>
+	<select id="getTag" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from tagbox2 where tagName = #{tagName};
+	</select>
+	<select id="getfollowUse" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from follow2 where who_Idx = #{sIdx} and for_Idx = #{memIdx};
+	</select>
+	<select id="getFollowerUserList" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 as m inner join follow2 as f on m.idx = f.who_Idx where f.for_Idx = #{memIdx} and m.userDel = 'NO';
+	</select>
+	<select id="getFollowingUserList" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 as m inner join follow2 as f on m.idx = f.for_Idx where f.who_Idx = #{memIdx} and m.userDel = 'NO';
+	</select>
+	<select id="getSessionFollowList" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from follow2 where who_Idx = #{sIdx};
+	</select>
+	<select id="getWishPage" resultType="int">
+		select count(*) from wishlist2 as w inner join product2 as p on w.prdIdx = p.prdIdx where w.memIdx = #{sIdx};
+	</select>
+	<select id="getWishList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from wishlist2 as w inner join product2 as p on w.prdIdx = p.prdIdx where w.memIdx = #{sIdx} order by w.wIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getUserInfor" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where idx = #{sIdx};
+	</select>
+	<select id="getUserAddressList" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from addressbox2 where adr_memIdx = #{sIdx};
+	</select>
+	<select id="getUserAddress" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from addressbox2 where adr_Idx = #{idx};
+	</select>
+	<select id="getorderSubInfo" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 where order_subIdx = #{subIdx};
+	</select>
+	<select id="myReturntotRecCnt" resultType="int">
+		select count(*) from returnsub2 as resb inner join product2 as p 
+		on resb.resub_prdIdx = p.prdIdx inner join return2 as re
+		on resb.resub_reIdx = re.reIdx inner join member2 as m
+		on re.mem_Idx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(re.return_date,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},re.return_date,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		re.return_date between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and resb.return_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+		</where>
+		and re.mem_Idx = #{memIdx};
+	</select>
+	<select id="getMemReturnList" resultType="com.spring.javagreenS_pjh.vo.ReturnVO">
+		select * from returnsub2 as resb inner join product2 as p 
+		on resb.resub_prdIdx = p.prdIdx inner join return2 as re
+		on resb.resub_reIdx = re.reIdx inner join member2 as m
+		on re.mem_Idx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(re.return_date,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},re.return_date,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		re.return_date between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and resb.return_val = #{val}
+			</if>
+		</where>
+		and re.mem_Idx = #{memIdx} order by resb.resubIdx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="returnAllcnt" resultType="int">
+		select count(*) from returnsub2 as res inner join return2 as r on res.resub_reIdx = r.reIdx where r.mem_Idx = #{sIdx};
+	</select>
+	<select id="returncnt1" resultType="int">
+		select count(*) from returnsub2 as res inner join return2 as r on res.resub_reIdx = r.reIdx
+		where r.return_status LIKE CONCAT("%", '취소', "%")   and r.mem_Idx = #{sIdx} and res.return_val = 0;
+	</select>
+	<select id="returncnt2" resultType="int">
+		select count(*) from returnsub2 as res inner join return2 as r on res.resub_reIdx = r.reIdx
+		where r.return_status LIKE CONCAT("%", '환불', "%")   and r.mem_Idx = #{sIdx} and res.return_val = 0;
+	</select>
+	<select id="returnClearcnt" resultType="int">
+		select count(*) from returnsub2 as res inner join return2 as r on res.resub_reIdx = r.reIdx
+		where r.mem_Idx = #{sIdx} and res.return_val = 1;
+	</select>
+	<select id="getUserContentTot" resultType="int">
+		select count(*) from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		   where bo.bo_memIdx = #{memIdx} and bo.bo_val != 99;
+	</select>
+	<select id="getMyDeclarationTot" resultType="int">
+		select count(*) from declaration2 where d_memIdx = #{sIdx};
+	</select>
+	<select id="getMyDeclarationList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from declaration2 as d inner join board2 as b on d.d_boIdx = b.boIdx where d.d_memIdx = #{sIdx} order by d_Idx desc limit #{startIndexNo} , #{pageSize};
+	</select>
+	<select id="getMyHistoryTot" resultType="int">
+		select count(*) from msgbox2 where msg_memIdx = #{sIdx};
+	</select>
+	<select id="getMyHistoryList" resultType="com.spring.javagreenS_pjh.vo.MsgVO">
+		select * from msgbox2 where msg_memIdx = #{sIdx} order by msgIdx desc limit #{startIndexNo} , #{pageSize};
+	</select>
+	
+	<update id="setEmailChange">
+		update member2 set email = #{email} where mid = #{mid};
+	</update>
+	<update id="setpwdChange">
+		update member2 set pwd = #{pwd} where mid = #{mid};
+	</update>
+	<update id="setNameChange">
+		update member2 set name = #{name} where mid = #{mid};
+	</update>
+	<update id="setNickNameChange">
+		update member2 set nickName = #{nickName} where mid = #{mid};
+	</update>
+	<update id="setTelChange">
+		update member2 set tel = #{tel} where mid = #{mid};
+	</update>
+	<update id="setProfileImg">
+		update member2 set photo = #{photo} where mid = #{mid};
+	</update>
+	<update id="setProfileDelete">
+		update member2 set photo = 'noimage.png' where mid = #{mid};
+	</update>
+	<update id="setTagCnt">
+		update tagbox2 set tagCnt = tagCnt + 1 where tagName = #{tagName};
+	</update>
+	<update id="setMyFeedUpdate">
+		update board2 set bo_prdIdx = #{vo.bo_prdIdx},bo_fName = #{vo.bo_fName},bo_content = #{vo.bo_content},bo_tag = #{vo.bo_tag} where boIdx = #{vo.boIdx};
+	</update>
+	<update id="getUserInfoAdrUpdate">
+		update member2 set name = #{vo.adr_name},tel = #{vo.adr_tel},post = #{vo.adr_post},address = #{vo.adr_address} where idx = #{idx};
+	</update>
+	<update id="getUserAddressUpdate">
+		update addressbox2 set adr_name = #{vo.adr_name}, adr_tel = #{vo.adr_tel},adr_post = #{vo.adr_post},adr_address = #{vo.adr_address} where adr_Idx = #{idx};
+	</update>
+	<update id="userAddressChange">
+		update member2 set name = #{chvo.adr_name},tel = #{chvo.adr_tel},post = #{chvo.adr_post},address = #{chvo.adr_address} where idx = #{sIdx};
+	</update>
+	<update id="userAddressboxChange">
+		update addressbox2 set adr_name = #{orivo.name}, adr_tel = #{orivo.tel},adr_post = #{orivo.post},adr_address = #{orivo.address} where adr_Idx = #{adr_Idx};
+	</update>
+	<update id="setUserContent">
+		update member2 set content = #{content} where idx = #{sIdx};
+	</update>
+	<update id="setUserDelOk">
+		update member2 set userDel = 'OK' where idx = #{sIdx};
+	</update>
+	<update id="setOrderConfirm">
+		update ordersub2 set order_val = 6 where order_subIdx = #{subIdx};
+	</update>
+	<update id="setMemPoint">
+		update member2 set point = point + #{order_prdPoint} where idx = #{order_memIdx};
+	</update>
+	
+	<insert id="setReturn">
+		insert into return2 values(default,#{vo.mem_Idx},#{vo.order_Idx},#{vo.return_marchantId},#{vo.return_totalprice},#{vo.return_point},default,#{vo.return_type},#{vo.return_content},#{vo.return_status},#{vo.return_indexcnt});
+	</insert>
+	<insert id="setReturnSub">
+		insert into returnsub2 values(default,#{resub_reIdx},#{subIdx},#{prdIdx},#{prdOption},#{prdPrice},#{prdCount},#{delPoint},default);
+	</insert>
+	<insert id="setMyFeedInput">
+		insert into board2 values(default,#{vo.bo_memIdx},#{vo.bo_prdIdx},#{vo.bo_fName},#{vo.bo_content},#{vo.bo_tag},default,default,default);
+	</insert>
+	<insert id="setTag">
+		insert into tagbox2 values(default,#{tagName},default);
+	</insert>
+	<insert id="setfollow">
+		insert into follow2 values(default,#{who_Idx},#{for_Idx});
+	</insert>
+	<insert id="setAddressInput">
+		insert into addressbox2 values(default,#{vo.adr_memIdx},#{vo.adr_name},#{vo.adr_tel},#{vo.adr_post},#{vo.adr_address});
+	</insert>
+	
+	<delete id="setUnfollow">
+		delete from follow2 where who_Idx = #{who_Idx} and for_Idx = #{for_Idx};
+	</delete>
+	<delete id="addressDelete">
+		delete from addressbox2 where adr_Idx = #{adr_Idx};
+	</delete>
+	<delete id="setMsgDelete">
+		delete from msgbox2 where msgIdx = #{msgIdx};
+	</delete>
+</mapper>

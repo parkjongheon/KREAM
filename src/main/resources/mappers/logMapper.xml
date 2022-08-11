@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javagreenS_pjh.dao.LogDAO">
+	<select id="getIdInfor" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where mid = #{mid};
+	</select>
+	<select id="getEmail" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where email = #{email};
+	</select>
+	<select id="getUserInfo" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where idx = #{idx};
+	</select>
+	<select id="getMidEmail" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 where mid = #{mid} and email = #{email};
+	</select>
+	<select id="getMsgCnt" resultType="int">
+		select count(*) from msgbox2 where msg_memIdx = #{sIdx} and msg_val = 0;
+	</select>
+	<select id="getUserMsgList" resultType="com.spring.javagreenS_pjh.vo.MsgVO">
+		select * from msgbox2 where msg_memIdx = #{idx} and msg_val = 0;
+	</select>
+	<select id="getMsgGoUrl" resultType="string">
+		select msg_url from msgbox2 where msgIdx = #{msgIdx};
+	</select>
+	
+	<insert id="setMemInput">
+		insert into member2 values(default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.tel},#{vo.email},#{vo.nickName},#{vo.post},#{vo.address},default,#{vo.content},default,#{vo.gender},default,default,default,default,default);
+	</insert>
+	<insert id="setMsgBox">
+		insert into msgbox2 values(default,#{mvo.msg_memIdx},#{mvo.msg_content},#{mvo.msg_url},#{mvo.msg_forMemIdx},#{mvo.msg_forMemNick},default);
+	</insert>
+	<update id="setMsgRead">
+		update msgbox2 set msg_val = 1 where msgIdx = #{msgIdx};
+	</update>
+	<update id="setUserPwd">
+		update member2 set pwd = #{code} where mid = #{mid};
+	</update>
+	<update id="setLastDay">
+		update member2 set lastDay = default where mid = #{mid};
+	</update>
+</mapper>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javagreenS_pjh.dao.AdDAO">
+	<select id="getMemberList" resultType="com.spring.javagreenS_pjh.vo.LogVO">
+		select * from member2 order by idx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getProductList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 order by prdIdx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="adOrdertotRecCnt" resultType="int">
+		select count(*) from ordersub2 as os inner join product2 as p 
+		on os.order_prdIdx = p.prdIdx inner join order2 as o
+		on os.orderIdx = o.orderIdx inner join member2 as m
+		on o.memIdx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(o.pay_orderDate,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},o.pay_orderDate,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		o.pay_orderDate between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and os.order_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+			and os.order_prdCount != 0
+		</where>
+	</select>
+	<select id="adReturntotRecCnt" resultType="int">
+		select count(*) from returnsub2 as resb inner join product2 as p 
+		on resb.resub_prdIdx = p.prdIdx inner join return2 as re
+		on resb.resub_reIdx = re.reIdx inner join member2 as m
+		on re.mem_Idx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(re.return_date,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},re.return_date,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		re.return_date between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and resb.return_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+		</where>
+	</select>
+	<select id="getReturnList" resultType="com.spring.javagreenS_pjh.vo.ReturnVO">
+		select * from returnsub2 as resb inner join product2 as p 
+		on resb.resub_prdIdx = p.prdIdx inner join return2 as re
+		on resb.resub_reIdx = re.reIdx inner join member2 as m
+		on re.mem_Idx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(re.return_date,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},re.return_date,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		re.return_date between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and resb.return_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+		</where>
+		order by resb.resubIdx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getOrderList" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 as os inner join product2 as p 
+		on os.order_prdIdx = p.prdIdx inner join order2 as o
+		on os.orderIdx = o.orderIdx inner join member2 as m
+		on o.memIdx = m.idx
+		<where>
+			<if test='date == "DAY" '>
+				DATE_FORMAT(o.pay_orderDate,"%Y-%m-%d") = CURDATE()
+			</if>
+			<if test='date == "MONTH" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${date},o.pay_orderDate,CURDATE())
+			</if>
+			<if test='start != "" '>
+		 		o.pay_orderDate between date(#{start}) and date(#{end})+1
+			</if>
+			<if test='val != 99 '>
+		 		and os.order_val = #{val}
+			</if>
+			<if test='search != "" '>
+		 		and ${part} LIKE CONCAT("%", #{search}, "%")
+			</if>
+			and os.order_prdCount != 0
+		</where>
+		order by os.order_subIdx ${sort} limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getOrdery" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 as o inner join product2 as p on o.order_prdIdx = p.prdIdx inner join order2 on o.orderIdx = order2.orderIdx inner join member2 on order2.memIdx = member2.idx where o.orderIdx = #{orderIdx};
+	</select>
+	<select id="getOrderInfo" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 as o inner join product2 as p on o.order_prdIdx = p.prdIdx inner join order2 on o.orderIdx = order2.orderIdx inner join member2 on order2.memIdx = member2.idx where o.orderIdx = #{orderIdx} and o.order_prdCount != 0;
+	</select>
+	<select id="getReturnInfo" resultType="com.spring.javagreenS_pjh.vo.ReturnVO">
+		select * from returnsub2 as res inner join product2 as p on res.resub_prdIdx = p.prdIdx inner join return2 as re on res.resub_reIdx = re.reIdx inner join member2 as m on re.mem_Idx = m.idx where res.resub_reIdx = #{reIdx};
+	</select>
+	<select id="totRecCnt" resultType="int">
+		select count(*) from member2;
+	</select>
+	<select id="prdRecCnt" resultType="int">
+		select count(*) from product2;
+	</select>
+	<select id="productRecCnt" resultType="int">
+		select count(*) from product2;
+	</select>
+	<select id="getOrderSub" resultType="com.spring.javagreenS_pjh.vo.OrderVO">
+		select * from ordersub2 where order_subIdx = #{orderIdx};
+	</select>
+	<select id="getOrderChartTotal" resultType="com.spring.javagreenS_pjh.vo.ChartVO">
+	select sum(order_prdCount * order_prdPrice) as totals,
+		sum(p.rPrice * order_prdCount) as rtot,
+		sum((order_prdCount * order_prdPrice)-(p.rPrice * order_prdCount)) as stot
+		from ordersub2 as os inner join order2 as o on os.orderIdx = o.orderIdx
+		inner join product2  as p on p.prdIdx = os.order_prdIdx
+		where o.pay_orderDate between date(#{start}) and date(#{end});
+	</select>
+	<select id="getBrandTop" resultType="com.spring.javagreenS_pjh.vo.ChartVO">
+		select kprdName as kprdName,sellCount as cnt from product2 order by sellCount desc limit 5;
+	</select>
+	
+	<select id="OrdertotRecCnt" resultType="int">
+		select count(*) from ordersub2 as o inner join product2 as p on o.order_prdIdx = p.prdIdx inner join order2 on o.orderIdx = order2.orderIdx inner join member2 on order2.memIdx = member2.idx 
+		<where>
+			<if test='part != "" '>
+		 		#{orderDate} > TIMESTAMPDIFF(${part},CURDATE(),order2.pay_orderDate)
+			</if>
+			<if test='searchString != "" '>
+		 		and order2.pay_marchantId LIKE CONCAT("%", #{searchString}, "%")
+			</if>
+			<if test='start != "" '>
+		 		order2.pay_orderDate between date(#{start}) and date(#{end})+1
+			</if>
+			and o.order_prdCount != 0
+		</where>
+	</select>
+	
+	<select id="getBrandList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from brand2 order by kbrName;
+	</select>
+	<select id="getCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from category2 where category = #{category};
+	</select>
+	<select id="getUseOption" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from prdoption2 where prdIdx = #{prdIdx} and size = #{size};
+	</select>
+	<select id="getCategoryList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from category2;
+	</select>
+	<select id="getSubCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from subcategory2 where subcategory = #{subCategory};
+	</select>
+	<select id="getSubCategories" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from subcategory2 where category = #{category};
+	</select>
+	<select id="getBrandCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where ebrName = #{brand} group by prdCategory;
+	</select>
+	<select id="getBCSubCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where ebrName = #{brand} and prdCategory = #{category} group by prdSubCategory;
+	</select>
+	<select id="getBCSProduct" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where ebrName = #{brand} and prdCategory = #{category} and prdSubCategory = #{subCategory} group by kprdName;
+	</select>
+	<select id="getOption" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from prdoption2 where prdIdx = #{prdIdx} limit 1;
+	</select>
+	<select id="getPrdInfor" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from prdoption2 as op , product2 as pro where op.prdIdx = pro.prdIdx and op.prdIdx = #{prdIdx} order by op.indexCount;
+	</select>
+	<select id="getProductInfor" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where prdIdx = #{prdIdx};
+	</select>
+	<select id="getProductVo" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where prdIdx = #{prdIdx};
+	</select>
+	
+	<select id="getReturnCheck" resultType="com.spring.javagreenS_pjh.vo.ReturnVO">
+		select * from return2 as re inner join returnsub2 as res where re.reIdx = res.resub_reIdx;
+	</select>
+	
+	<select id="getOrderCnt" resultType="int">
+		select count(*) from ordersub2 where order_val = 0 and order_prdCount != 0;
+	</select>
+	<select id="getReturnCnt" resultType="int">
+		select count(*) from return2 as re inner join returnsub2 as res where re.reIdx = res.resub_reIdx and res.return_val =0;
+	</select>
+	<select id="getBrandInfo" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from brand2 where brIdx = #{brIdx};
+	</select>
+	<select id="getBrandPrdCnt" resultType="int">
+		select count(*) from product2 as p inner join brand2 as b on b.ebrName = p.ebrName where b.brIdx = #{brIdx};
+	</select>
+	<select id="getSubCategoryList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from subcategory2;
+	</select>
+	<select id="cateDeleteCheck" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 p inner join category2 as c on p.prdCategory = c.category where c.idx = #{idx} limit 1;
+	</select>
+	<select id="subCateDeleteCheck" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 p inner join subcategory2 as s on p.prdSubCategory = s.subcategory where s.idx = #{idx} limit 1;
+	</select>
+	<select id="getDectot" resultType="int">
+		select count(*) from declaration2;
+	</select>
+	<select id="getDelcList" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from declaration2 as d inner join member2 as m on d.d_memIdx = m.idx
+		order by d_Idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getDeclContent" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select * from declaration2 as d inner join board2 as b on d.d_boIdx = b.boIdx inner join member2 as m on d.d_memIdx = m.idx where d_Idx = #{d_Idx};
+	</select>
+	<select id="getAdFeedAlltot" resultType="int">
+		select count(*) from board2;
+	</select>
+	<select id="getAdFeedAll" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		  where m.userDel != 'OK' order by bo.boIdx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getAdUserContent" resultType="com.spring.javagreenS_pjh.vo.BoVO">
+		select *,(select count(*) from boardreply2 as br where br.boRe_boIdx = bo.boIdx) as reCnt from board2 as bo
+		 inner join member2 as m
+		  on bo.bo_memIdx = m.idx left join product2 as p on p.prdIdx = bo.bo_prdIdx
+		   where bo.boIdx = #{boIdx};
+	</select>
+	
+	<insert id="setBrandImage">
+		insert into brand2 values(default,#{vo.kbrName},#{vo.ebrName},#{vo.brfName});
+	</insert>
+	<insert id="setCategory">
+		insert into category2 values(default,#{category});
+	</insert>
+	<insert id="setSubCategory">
+		insert into subcategory2 values(default,#{category},#{subCategory});
+	</insert>
+	<insert id="setproductImage">
+		insert into product2 values(default,#{vo.ebrName},#{vo.kprdName},#{vo.eprdName},#{vo.prdNum},#{vo.prdCategory},#{vo.prdSubCategory},#{vo.prdRdate},#{vo.color},#{vo.sPrice},#{vo.rPrice},#{vo.prdfName},#{vo.prdContent},default,default,default,#{vo.prdSale});
+	</insert>
+	<insert id="setOptionInput">
+		insert into prdoption2 values(default,#{prdIdx},#{size},#{prdCount},#{indexNum});
+	</insert>
+	
+	<update id="updateOrderVal">
+		update ordersub2 set order_val = #{val} where order_subIdx = #{orderIdx};
+	</update>
+	<update id="setProductImageUpdate">
+		update product2 set ebrName = #{vo.ebrName} , kprdName = #{vo.kprdName},eprdName = #{vo.eprdName},prdNum = #{vo.prdNum}, prdCategory = #{vo.prdCategory},prdSubCategory = #{vo.prdSubCategory}, color= #{vo.color}, sPrice = #{vo.sPrice}, rPrice = #{vo.rPrice}, prdfName = #{vo.prdfName} , prdContent = #{vo.prdContent} where prdIdx = #{vo.prdIdx};
+	</update>
+	<update id="setProductUpdate">
+		update product2 set ebrName = #{vo.ebrName} , kprdName = #{vo.kprdName},eprdName = #{vo.eprdName},prdNum = #{vo.prdNum}, prdCategory = #{vo.prdCategory},prdSubCategory = #{vo.prdSubCategory}, color= #{vo.color}, sPrice = #{vo.sPrice}, rPrice = #{vo.rPrice}, prdContent = #{vo.prdContent},prdSale = #{vo.prdSale} where prdIdx = #{vo.prdIdx};
+	</update>
+	<update id="setPrdSell">
+		update product2 set sellStop = 1 where prdIdx = #{prdIdx};
+	</update>
+	<update id="setPrdSellStop">
+		update product2 set sellStop = 0 where prdIdx = #{prdIdx};
+	</update>
+	<update id="setReturnUpdate">
+		update order2 set pay_price = pay_price - #{pay_price} , pay_setPoint = pay_setPoint - #{pay_setPoint} where orderIdx = #{orderIdx};
+	</update>
+	<update id="setReturnsubUpdate">
+		update ordersub2 set order_prdCount = order_prdCount - #{order_prdCount}, order_prdPoint = order_prdPoint - #{order_prdPoint} where order_subIdx = #{order_subIdx}; 
+	</update>
+	<update id="updateIndexcnt">
+		update order2 set indexcnt = indexcnt - #{cnt} where orderIdx = #{orderIdx};
+	</update>
+	<update id="updateReturnOk">
+		update returnsub2 set return_val = 1 where resubIdx = #{resubIdx};
+	</update>
+	<update id="setProductreCnt">
+		update prdoption2 set count = count + #{order_prdCount} where prdIdx = #{order_prdIdx} and size = #{order_prdoption};
+	</update>
+	<update id="setBrandImgUpdate">
+		update brand2 set kbrName = #{vo.kbrName}, ebrName = #{vo.ebrName}, brfName = #{vo.brfName} where brIdx = #{vo.brIdx};
+	</update>
+	<update id="setBrandUpdate">
+		update brand2 set kbrName = #{vo.kbrName}, ebrName = #{vo.ebrName} where brIdx = #{vo.brIdx};
+	</update>
+	<update id="setCateUpdate">
+		update category2 set category = #{category} where idx = #{idx};
+	</update>
+	<update id="setSubCateUpdate">
+		update subcategory2 set subcategory = #{subCategory} where idx = #{idx};
+	</update>
+	<update id="updateOrderLastDate">
+		update ordersub2 set order_lastdate = #{lastdate} where order_subIdx = #{orderIdx};
+	</update>
+	<update id="setMempoint">
+		update member2 set point = point + #{order_prdPoint} where idx = #{order_memIdx};
+	</update>
+	<update id="setDecComent">
+		update declaration2 set d_coment = #{vo.d_coment} where d_Idx = #{vo.d_Idx};
+	</update>
+	<update id="setFeedBline">
+		update board2 set bo_val = 1 where boIdx = #{boIdx};
+	</update>
+	<update id="setFeedDel">
+		update board2 set bo_val = 99 where boIdx = #{boIdx};
+	</update>
+	
+	<delete id="deleteSubOrder">
+		delete from ordersub2 where order_subIdx = #{order_subIdx};
+	</delete>
+	<delete id="deleteOrder">
+		delete from order2 where orderIdx = #{orderIdx};
+	</delete>
+	<delete id="setBrandDelete">
+		delete from brand2 where brIdx = #{brIdx};
+	</delete>
+	<delete id="cateDelete">
+		delete from category2 where idx = #{idx};
+	</delete>
+	<delete id="subCateDelete">
+		delete from subcategory2 where idx = #{idx};
+	</delete>
+</mapper>

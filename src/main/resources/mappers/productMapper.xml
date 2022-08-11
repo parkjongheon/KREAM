@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javagreenS_pjh.dao.ProductDAO">
+	<select id="AllprdRecCnt" resultType="int">
+		select count(*) from product2
+		<where>
+			<if test='brand != "" '>
+				ebrName = #{brand}
+			</if>
+			<if test='part != "" '>
+				AND prdCategory = #{part}
+			</if>
+			<if test='subpart != "" '>
+				AND prdSubCategory = #{subpart}
+			</if>
+		</where>
+	</select>
+	<select id="getProduct" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2
+		<where>
+			<if test='brand != "" '>
+				ebrName = #{brand}
+			</if>
+			<if test='part != "" '>
+				AND prdCategory = #{part}
+			</if>
+			<if test='subpart != "" '>
+				AND prdSubCategory = #{subpart}
+			</if>
+		</where>
+		order by prdIdx ${sort} limit #{startIndexNum},#{pageSize}
+	</select>
+	<select id="getBrand" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from brand2 order by brIdx desc;
+	</select>
+	<select id="getWishList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from wishList2 where memIdx = #{sIdx};
+	</select>
+	<select id="getCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from category2 order by idx;
+	</select>
+	<select id="getSubCategory" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from subcategory2 where category = (select category from category2 where idx = #{idx});
+	</select>
+	<select id="GetProductInfo" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where prdIdx = #{prdIdx};
+	</select>
+	<select id="getProductOption" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from prdoption2 where prdIdx = #{prdIdx} order by indexCount desc;
+	</select>
+	<select id="getSelectCart" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from cart2 as ct , product2 as pro where memIdx = #{memIdx} and ct.prdIdx = #{prdIdx} and ct.prdIdx = pro.prdIdx and ct.prdoption = #{size};
+	</select>
+	<select id="getCartList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from cart2 as ct , product2 as pro where memIdx = #{memIdx} and ct.prdIdx = pro.prdIdx;
+	</select>
+	<select id="getOrderIdx" resultType="int">
+		select orderIdx from order2 where memIdx = #{memIdx} order by orderIdx desc limit 1;
+	</select>
+	<select id="getOptionCount" resultType="int">
+		select count(*) from prdoption2 where prdIdx = #{prdIdx} and size = #{prdOption};
+	</select>
+	<select id="getPrdBrandList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 where ebrName = #{ebrName} and prdIdx != #{prdIdx} order by sellCount desc,prdIdx limit 5;
+	</select>
+	<select id="getBestProductList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 order by sellCount desc limit 4;
+	</select>
+	<select id="getNewProductList" resultType="com.spring.javagreenS_pjh.vo.ProductVO">
+		select * from product2 order by prdIdx desc limit 4;
+	</select>
+	
+	
+	<update id="setUpdateCart">
+		update cart2 set prdCount = #{count} where memIdx = #{memIdx} and prdIdx = #{prdIdx} and prdoption = #{size}; 
+	</update>
+	
+	<update id="setOptionCountUp">
+		update cart2 set prdCount = prdCount + 1 where idx = #{idx};
+	</update>
+	<update id="setOptionCountDown">
+		update cart2 set prdCount = prdCount - 1 where idx = #{idx};
+	</update>
+	<update id="setUsePoint">
+		update member2 set point = point - #{setPoint} where idx = #{memIdx};
+	</update>
+	<update id="setOrderProductCount">
+		update prdoption2 set count = count - #{prdCount} where prdIdx = #{prdIdx} and size = #{prdOption};
+	</update>
+	<update id="prdWishUpPost">
+		update product2 set wishCount = wishCount + 1 where prdIdx = #{prdIdx};
+	</update>
+	<update id="prdWishDownPost">
+		update product2 set wishCount = wishCount - 1 where prdIdx = #{prdIdx};
+	</update>
+	<update id="setOptionChange">
+		update prdoption2 set count = #{count} where opIdx = #{opIdx};
+	</update>
+	
+	<insert id="wishUpPost">
+		insert into wishList2 values(default,#{memIdx},#{prdIdx});
+	</insert>
+	<insert id="setCart">
+		insert into cart2 values(default,#{memIdx},#{prdIdx},#{size},#{count});
+	</insert>
+	<insert id="setOrder">
+		insert into order2 values(default,#{vo.memIdx},#{vo.pay_marchantId},#{vo.totalPrice},#{vo.setPoint},#{vo.pay_getName},#{vo.pay_getTel},#{vo.pay_getPost},#{vo.pay_getAddress},#{vo.pay_getPostMsg},default,#{vo.indexcnt});
+	</insert>
+	<insert id="setOrderSub">
+		insert into ordersub2 values(default,#{memIdx},#{orderIdx},#{prdIdx},#{prdCount},#{prdPrice},#{prdOption},#{prdTotalPoint},default,default);
+	</insert>
+	
+	<delete id="wishDownPost">
+		delete from wishList2 where memIdx = #{memIdx} and prdIdx = #{prdIdx};
+	</delete>
+	<delete id="deleteCart">
+		delete from cart2 where idx = #{idx};
+	</delete>
+	<delete id="OrderSetdeleteCart">
+		delete from cart2 where memIdx = #{memIdx} and prdIdx = #{prdIdx} and prdoption = #{prdOption};
+	</delete>
+</mapper>
