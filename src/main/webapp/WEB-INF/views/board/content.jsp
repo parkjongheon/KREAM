@@ -99,7 +99,7 @@ $(function(){
 		  
 		});
 	})
-	let nick = '${sNickName}';
+	let nick = '${sMid}';
 	
 	function reply(res){
 		let idx = res;
@@ -142,7 +142,7 @@ $(function(){
 						if(vos[i].boRe_val != 99){
 							data +='<span class="w3-left" style="font-size: 11px;color:gray"><a href="javascript:rereply(1,'+vos[i].boRe_boReIdx+','+vos[i].boRe_memIdx+')">답글 쓰기</a>';
 							data +='</span>';	
-							if(vos[i].nickName == nick){
+							if(vos[i].mid == nick){
 								data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyDelete('+vos[i].boReIdx+')">&nbsp;삭제&nbsp;</a>';
 								data +='</span>';	
 								data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyUpdate('+vos[i].boReIdx+')">&nbsp;수정&nbsp;</a>';
@@ -181,7 +181,7 @@ $(function(){
 						if(vos[i].boRe_val != 99){
 							data +='<span class="w3-left" style="font-size: 11px;color:gray"><a href="javascript:rereply(1,'+vos[i].boRe_boReIdx+','+vos[i].boRe_memIdx+')">답글 쓰기</a>';
 							data +='</span>';	
-							if(vos[i].nickName == nick){
+							if(vos[i].mid == nick){
 								data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyDelete('+vos[i].boReIdx+')">&nbsp;삭제&nbsp;</a>';
 								data +='</span>';	
 								data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyUpdate('+vos[i].boReIdx+')">&nbsp;수정&nbsp;</a>';
@@ -211,7 +211,7 @@ $(function(){
 						data +='<div class="w3-col m7">';
 						data +='<span class="w3-left" style="font-size: 13px"><b>@'+vos[i].boRe_forMem+'</b>&nbsp;'+vos[i].boRe_coment+'</span><br>';
 						data +='<span class="w3-left" style="font-size: 11px;color:gray"><a href="javascript:rereply(1,'+vos[i].boRe_boReIdx+','+vos[i].boRe_memIdx+')">답글 쓰기</a></span>';	
-						if(vos[i].nickName == nick){
+						if(vos[i].mid == nick){
 							data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyDelete('+vos[i].boReIdx+')">&nbsp;삭제&nbsp;</a>';
 							data +='</span>';	
 							data +='<span class="w3-right" style="font-size: 11px;color:gray"><a href="javascript:replyUpdate('+vos[i].boReIdx+')">&nbsp;수정&nbsp;</a>';

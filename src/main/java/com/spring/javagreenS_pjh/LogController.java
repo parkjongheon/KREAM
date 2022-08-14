@@ -242,13 +242,13 @@ public class LogController {
 			
 			content += "<br/><hr>페이지에서 인증코드를 입력해주세요<hr/><br/>";
 			
-			content += "<p><img src=\"cid:m12.jpg\"></p><br/>";
+			content += "<p><img src=\"cid:logo2.jpg\"></p><br/>";
 			
 			content += "<hr/>";
 			
-			FileSystemResource file = new FileSystemResource("C:\\JavaGreen\\SpringFrameWork\\works\\javagreenS\\src\\main\\webapp\\resources\\images\\m12.jpg");
+			FileSystemResource file = new FileSystemResource("C:\\JavaGreen\\LastProject\\works\\javagreenS_pjh\\src\\main\\webapp\\resources\\logo\\logo2.png");
 			messageHelper.setText(content, true);
-			messageHelper.addInline("m12.jpg", file);
+			messageHelper.addInline("logo2.jpg", file);
 			
 			//본문에 기재된 그림파일의 경로를 따로 표시시켜준다.
 			mailSender.send(message);

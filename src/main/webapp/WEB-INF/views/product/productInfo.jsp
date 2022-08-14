@@ -331,7 +331,7 @@
 			data += $("input[name='itemSize']").eq(i).attr("value");
 		}
 		if(data.trim() == ""){
-			alert("값이없음");
+			alert("옵션을 선택해주세요");
 		}
 		else{
 			$.ajax({
@@ -448,8 +448,8 @@
 					<br><font color="gray"><b></b><small>(최대 5개 가능)</small></font>
 				</span><br><br><br>
 				<c:forEach var="opvo" items="${vos}">
-					<%-- <a href="javascript:selectBox(${opvo.size},'${vo.SPrice}')" id="no${opvo.size}" class="w3-button w3-border w3-round-large w3-margin-bottom"><small><b>${opvo.size}</b></small><br><small>수량 : ${opvo.count}</small></a> --%>
-					<button type="button" onclick="selectBox(${opvo.size},'${vo.SPrice}')" id="no${opvo.size}" class="w3-button w3-border w3-round-large w3-margin-bottom" <c:if test="${opvo.count == 0}">disabled</c:if>><small><b>${opvo.size}</b></small><br><small>수량 : ${opvo.count}</small></button>
+					<%-- <a href="javascript:selectBox('${opvo.size}','${vo.SPrice}')" id="no${opvo.size}" class="w3-button w3-border w3-round-large w3-margin-bottom"><small><b>${opvo.size}</b></small><br><small>수량 : ${opvo.count}</small></a> --%>
+					<button type="button" onclick="selectBox('${opvo.size}','${vo.SPrice}')" id="no${opvo.size}" class="w3-button w3-border w3-round-large w3-margin-bottom" <c:if test="${opvo.count == 0}">disabled</c:if>><small><b>${opvo.size}</b></small><br><small>수량 : ${opvo.count}</small></button>
 				</c:forEach>
 				</p>
 				<hr>
