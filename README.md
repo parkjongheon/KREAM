@@ -11,7 +11,7 @@
 - 프로그램 : STS4(4.3.14 Release)
 - 서버 : Apache Tomcat 9.0
 - 데이터베이스 : MySQL 5.7 , HeidiSQL9.5
-- 기타 : JSP, HTML5 , JavaScript , JQuery, Ajax , JSTL , W3-School , GoogleChart ,
+- 기타 : JSP, HTML5 , JavaScript , JQuery, Ajax , JSTL , W3-School.CSS , GoogleChart ,
 - SlickSlider , DatePicker , sweatAlert2 , IMPort , CKEditor
 # DB 설계
 ![image](https://user-images.githubusercontent.com/102267923/184583500-5a952a10-5992-4f73-9a6f-f01442e95a8d.png)
