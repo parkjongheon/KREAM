@@ -20,7 +20,7 @@
 
 <h3>메인 화면</h3>
 
-![image](https://user-images.githubusercontent.com/102267923/184594355-95b0c527-c3ca-461d-a77f-7243f6d4c896.png)
+![image](https://user-images.githubusercontent.com/102267923/184595003-300da2e9-d59d-4ba2-88c0-8510a7210e47.png)
 - 홈버튼
 - 회원 메뉴
 - 공통 메뉴
@@ -28,7 +28,8 @@
 
 <hr/>
 <h3>통합 검색</h3>
-![image](https://user-images.githubusercontent.com/102267923/184594737-a1c0f81b-4f08-41ef-a3b4-573cb5fe7410.png)
+
+![image](https://user-images.githubusercontent.com/102267923/184595079-d1ed1fe9-3113-4efd-81e0-467db4598e46.png)
 - 통합검색
 
 <hr/>
