@@ -8,7 +8,7 @@
 - 서버 : Apache Tomcat 9.0
 - 데이터베이스 : MySQL 5.7 , HeidiSQL9.5
 - 기타 : JSP, HTML5 , JavaScript , JQuery, Ajax , JSTL , W3-School , GoogleChart ,
-- SlickSlider , DatePicker , sweatAlert2 , Import , CKEditor
+- SlickSlider , DatePicker , sweatAlert2 , IMPort , CKEditor
 # DB 설계
 ![image](https://user-images.githubusercontent.com/102267923/172859685-65b907c0-c551-4950-8b58-978494417daf.png)
 # 화면구현 | Click-> <a href="https://youtu.be/JW0tt_WupRo">영상으로보기</a>
