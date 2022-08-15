@@ -33,3 +33,13 @@
 - 통합검색
 
 <hr/>
+<h3>마이 페이지</h3>
+![image](https://user-images.githubusercontent.com/102267923/184595673-47aa9d9b-454c-48ca-8e62-e18898e22afc.png)
+- 주문 내역
+- 환불 내역
+- 관심 상품
+- 정보 수정
+- 주소록
+- 알림 내역
+- 회원 
+
