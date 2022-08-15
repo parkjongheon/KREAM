@@ -7,7 +7,7 @@
 - 프로그램 : STS4(4.3.14 Release)
 - 서버 : Apache Tomcat 9.0
 - 데이터베이스 : MySQL 5.7 , HeidiSQL9.5
-- 기타 : JSP ,<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> &nbsp , JavaScript , W3-School,
+- 기타 : <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=jsp&logoColor=white"> ,<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> &nbsp , JavaScript , W3-School,
        Ajax, Jquery , COS , JSTL 
 # DB 설계
 ![image](https://user-images.githubusercontent.com/102267923/172859685-65b907c0-c551-4950-8b58-978494417daf.png)
