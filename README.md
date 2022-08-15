@@ -1,7 +1,9 @@
 # KREAM#
 - SpringFrameWork 개인프로젝트(쇼핑몰)
-- <a href="http://49.142.157.251:9090/javagreenS_pjh/">사이트 바로가기</a>
+- <a href="http://49.142.157.251:9090/javagreenS_pjh/">작품 사이트 바로가기</a>
 - [관리자 ID : admin , PWD : 1234]
+
+- <a href="[https://youtu.be/JW0tt_WupRo](https://youtu.be/HJnKKoNnBkA)">영상으로 보기</a>
 # 개발일정
 - 2022.06.29 ~ 2022.08.04
 # 개발환경
@@ -14,7 +16,7 @@
 # DB 설계
 ![image](https://user-images.githubusercontent.com/102267923/184583500-5a952a10-5992-4f73-9a6f-f01442e95a8d.png)
 
-# 화면구현 | Click-> <a href="https://youtu.be/JW0tt_WupRo">영상으로보기</a>
+# 화면구현
 
 <h3>메인화면</h3>
 
