@@ -3,7 +3,7 @@
 - <a href="http://49.142.157.251:9090/javagreenS_pjh/">작품 사이트 바로가기</a>
 - [관리자 ID : admin , PWD : 1234]
 
-- <a href="https://youtu.be/HJnKKoNnBkA">영상으로 보기 <img src="https://img.shields.io/badge/영상으로 보기-FF0000?style=for-the-badge&logo=YouTube&logoColor=red"></a>
+- <a href="https://youtu.be/HJnKKoNnBkA"><img src="https://img.shields.io/badge/영상으로 보기-FF0000?style=for-the-badge&logo=YouTube&logoColor=red"></a>
 # 개발일정
 - 2022.06.29 ~ 2022.08.04
 # 개발환경
