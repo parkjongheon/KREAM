@@ -54,3 +54,16 @@
 - 필터 검색
 - 관심상품 등록
 - 구매 / 장바구니
+<hr>
+<h3>게시물 페이지</h3>
+
+![image](https://user-images.githubusercontent.com/102267923/184596706-d250d373-c9a6-40af-bcf7-678f973b9c85.png)
+![image](https://user-images.githubusercontent.com/102267923/184596784-fb8b2cb7-ab6a-4e8b-a290-2c37edaad74e.png)
+- 게시물 리스트 
+- 좋아요 기능
+- 댓글 기능
+- 게시물 신고 기능
+- 게시물 태그 기능
+- 게시물 수정/삭제
+
+<hr>
