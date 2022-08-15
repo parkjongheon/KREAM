@@ -3,7 +3,7 @@
 # 개발일정
 - 2022.06.29 ~ 2022.08.04
 # 개발환경
-- 개발언어 : <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">  ver1.8
+- 개발언어 : <img src="https://img.shields.io/badge/java-007396?style=flat-square&logo=java&logoColor=white">  ver1.8
 - 프로그램 : STS4(4.3.14 Release)
 - 서버 : Apache Tomcat 9.0
 - 데이터베이스 : MySQL 5.7 , HeidiSQL9.5
