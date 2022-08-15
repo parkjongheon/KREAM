@@ -33,6 +33,7 @@
 - 통합검색
 
 <hr/>
+<br>
 <h3>마이 페이지</h3>
 
 ![image](https://user-images.githubusercontent.com/102267923/184595673-47aa9d9b-454c-48ca-8e62-e18898e22afc.png)
@@ -46,6 +47,7 @@
 
 
 <hr/>
+<br>
 <h3>상품 페이지</h3>
 
 ![image](https://user-images.githubusercontent.com/102267923/184596145-2f4c6c84-786a-4898-b363-cbfaa740e097.png)
@@ -55,6 +57,7 @@
 - 관심상품 등록
 - 구매 / 장바구니
 <hr>
+<br>
 <h3>게시물 페이지</h3>
 
 ![image](https://user-images.githubusercontent.com/102267923/184596706-d250d373-c9a6-40af-bcf7-678f973b9c85.png)
@@ -67,3 +70,4 @@
 - 게시물 수정/삭제
 
 <hr>
+<br>
