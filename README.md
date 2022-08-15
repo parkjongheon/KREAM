@@ -3,12 +3,12 @@
 # 개발일정
 - 2022.06.29 ~ 2022.08.04
 # 개발환경
-- 개발언어 : <img src="https://img.shields.io/badge/java-007396?style=flat-square&logo=java&logoColor=white">  ver1.8
+- 개발언어 : JAVA ver1.8
 - 프로그램 : STS4(4.3.14 Release)
 - 서버 : Apache Tomcat 9.0
 - 데이터베이스 : MySQL 5.7 , HeidiSQL9.5
-- 기타 : JSP,<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> &nbsp , JavaScript , W3-School,
-       Ajax, Jquery , COS , JSTL 
+- 기타 : JSP, HTML5 , JavaScript , JQuery, Ajax , JSTL , W3-School , GoogleChart ,
+- SlickSlider , DatePicker , sweatAlert2 , Import , CKEditor
 # DB 설계
 ![image](https://user-images.githubusercontent.com/102267923/172859685-65b907c0-c551-4950-8b58-978494417daf.png)
 # 화면구현 | Click-> <a href="https://youtu.be/JW0tt_WupRo">영상으로보기</a>
