@@ -71,3 +71,11 @@
 
 <hr>
 <br>
+<h3>관리자 페이지</h3>
+
+![image](https://user-images.githubusercontent.com/102267923/184597274-2873b2a2-e2ea-43ff-a8db-a0e2f203e12a.png)
+- 관리자 메인
+- 관리자 회원관리
+- 관리자 상품관리
+- 관리자 주문관리
+- 관리자 게시판 관리
